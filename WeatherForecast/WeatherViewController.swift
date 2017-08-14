@@ -21,7 +21,7 @@ class WeatherViewController: UIViewController, iCarouselDelegate, iCarouselDataS
     
     
     
-// MARK: Lifecycle methods
+    // MARK: Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         carouselView.type = .coverFlow2
@@ -36,22 +36,25 @@ class WeatherViewController: UIViewController, iCarouselDelegate, iCarouselDataS
         cityData =  WeatherDataModel.sharedInstance.getCityInfo()
         
     }
-
+    
     
     func configureCityValues()
     {
-        if let item = cityData?["city"] as? [String:AnyObject], let value = item["name"] as? String
+        // if let item = cityData?["city"] as? [String:AnyObject], let value = item["name"] as? String
+        if let value = cityData?["city"]?["name"] as? String
         {
             cityLabel.text = value
-            
-            if let element = item["coord"] as? [String: AnyObject], let val1 = element["lat"] as? Double , let val2 = element["lon"] as? Double {
-                latitudeLabel.text = "Latitude : \(val1)"
-                longitudeLabel.text = "Longitude : \(val2)"
-            }
         }
+        
+        if let value = cityData?["city"]?["coord"] as? [String: AnyObject], let lat = value["lat"] as? Double , let lon = value["lon"] as? Double
+        {
+            latitudeLabel.text = "Latitude : \(lat)"
+            longitudeLabel.text = "Longitude : \(lon)"
+        }
+        
     }
     
-   @IBAction func convertTempratureUnit(_ sender: UIButton) {
+    @IBAction func convertTempratureUnit(_ sender: UIButton) {
         
         
         if(WeatherDataModel.sharedInstance.isCelcius)
@@ -67,7 +70,7 @@ class WeatherViewController: UIViewController, iCarouselDelegate, iCarouselDataS
     }
     
     
-//MARK: Carousel Datasource
+    //MARK: Carousel Datasource
     
     func numberOfItems(in carousel: iCarousel) -> Int {
         

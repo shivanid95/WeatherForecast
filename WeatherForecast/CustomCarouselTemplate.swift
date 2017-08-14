@@ -3,7 +3,7 @@
 //  WeatherForecast
 //
 //  Created by Shivani Dosajh on 08/08/17.
-//  Copyright © 2017 Shivani Dosajh. All rights5 reserved.
+//  Copyright © 2017 Shivani Dosajh. All rights reserved.
 //
 
 import UIKit
@@ -81,10 +81,11 @@ class CustomCarouselTemplate: UIView {
                 pressureLabel.text = "pressure"
             }
         }
-        if let item = data["weather"] as? [[String: AnyObject]] , let element = item[0] as? [String: AnyObject] ,let val = element["icon"] as? String , let val2 = element["description"] as? String
+
+        if let item = data["weather"]?[0] as? [String: AnyObject] , let icon = item["icon"] as? String,let description = item["description"] as? String
         {
-            descriptionLabel.text = val2
-            let weatherIconString = val
+           descriptionLabel.text = description
+            let weatherIconString = icon
             let imageUrl = "https://openweathermap.org/img/w/\(weatherIconString).png"
             let url = URL(string: imageUrl)
             
@@ -103,14 +104,7 @@ class CustomCarouselTemplate: UIView {
     
     func convertTempratureUnit(toCelsius isCelsius:Bool , forTemprature temp:Double?) -> Double
     {
-        var value:Double!
-        if(isCelsius){
-            value = temp! - 273
-        }
-        else{
-            value = 9.0/5 * (temp! - 273) + 32
-        }
-        
+        let value = isCelsius ?temp! - 273 : 9.0/5 * (temp! - 273) + 32
         return value
     }
     
